@@ -1,8 +1,7 @@
 import pandas as pd
 import plotly.express as px
 
-file_path = r"C:\Users\griza\Downloads\fr.openfoodfacts.org.products.csv"
-df = pd.read_csv(file_path, nrows=150000, low_memory=False, sep='\t')
+df = pd.read_csv('nouveau_fichier2.csv', nrows=150000, low_memory=False, sep='\t')
 
 df
 # Liste des colonnes à conserver, incluant le nom et le numéro du produit
