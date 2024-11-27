@@ -13,20 +13,18 @@ columns_to_keep = [
     'code','product_name', 'product_code',  # Ajout des codes produits
     'origins', 'origins_tags', 'origins_fr', 'countries_fr', 'main_category_fr'
 ]
+# Zone de saisie pour l'utilisateur
+search_term = st.text_input("Entrez les noms de produits que vous recherchez dans votre panier :").lower()
 
-# Zone de saisie pour les codes produits (un ou plusieurs, séparés par des virgules ou des retours à la ligne)
-codes_input = st.text_area("Entrez les codes des produits que vous recherchez (séparés par des virgules ou des lignes) :")
 
-# Convertir l'entrée utilisateur en une liste de codes
-if codes_input:
-    codes = [code.strip() for code in codes_input.replace('\n', ',').split(',') if code.strip()]
-    st.write(f"Vous avez recherché {len(codes)} code(s) : {', '.join(codes)}")
+# Filtrer les lignes où 'origins' contient une information non vide
+df_filtered = df[df['origins'].notnull()]
 
-    # Filtrer les lignes où 'product_code' correspond aux codes recherchés
-    df_filtered = df[df['product_code'].isin(codes)]
-else:
-    st.warning("Veuillez entrer au moins un code produit.")
-    df_filtered = pd.DataFrame(columns=columns_to_keep)  # DataFrame vide si aucun code saisi
+# Filtrer les lignes où 'product_name' contient le terme recherché (en ignorant la casse)
+df_filtered = df_filtered[df_filtered['product_name'].str.contains(search_term, case=False, na=False)]
+
+# Exclure les lignes dont le 'product_name' contient "es:Mondo" (en ignorant la casse)
+df_filtered = df_filtered[~df_filtered['product_name'].str.contains('es:Mondo', case=False, na=False)]
 
 # Sélectionner les colonnes spécifiées
 df_filtered = df_filtered[columns_to_keep]
@@ -61,18 +59,15 @@ else:
 df_origins = pd.DataFrame({"Pays": origins_list}) 
 
 # Create the choropleth map
-if not df_origins.empty:
-    fig = px.choropleth(
-        df_origins,
-        locations="Pays",
-        locationmode="country names",
-        color_discrete_sequence=["blue"], 
-        title="Carte des pays uniques"
-    )
-    st.plotly_chart(fig)
-else:
-    st.warning("Aucune origine trouvée pour les codes produits saisis.")
+fig = px.choropleth(
+    df_origins,  # Use the DataFrame instead of the list
+    locations="Pays",  # 'Pays' is now a column in the DataFrame
+    locationmode="country names",
+    color_discrete_sequence=["blue"], 
+    title="Carte des pays uniques"
+)
+# Afficher la carte dans Streamlit
+st.plotly_chart(fig)
 
-# Afficher le DataFrame filtré
 st.subheader("Résultats du filtrage des produits")
 st.dataframe(df_filtered)
