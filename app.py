@@ -11,4 +11,5 @@ st.title('Grosse colab KFC Burger King')
 df = pd.DataFrame(values, columns=feature_names)
 
 df
-
+plot = df["alcohol"]
+st.line_chart(plot)
