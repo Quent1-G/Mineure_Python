@@ -16,6 +16,7 @@ search_code = st.text_input("Entrez le code du produit que vous recherchez :")
 
 # Filtrer les lignes où 'code' correspond au code entré (en tant que chaîne)
 # Filtrer les lignes où 'code' correspond au code entré (en tant que chaîne)
+# Filtrer les lignes où 'code' correspond au code entré (en tant que chaîne)
 if search_code:
     # Convertir la colonne 'code' en chaîne de caractères avant de comparer
     df['code_str'] = df['code'].astype(str)  # Crée une colonne temporaire avec le code en texte
@@ -24,8 +25,8 @@ else:
     df_filtered = pd.DataFrame()  # Si aucun code n'est saisi, il n'y a pas de résultat
 
 # Appliquer le filtre "origins" uniquement sur df_filtered
-
-df_filtered = df_filtered[df_filtered['origins'].notnull()]
+if not df_filtered.empty:
+    df_filtered = df_filtered[df_filtered['origins'].notnull()]
 
 
 
