@@ -49,6 +49,7 @@ def modify_origins_tags(value):
 # Appliquer la fonction sur la colonne "origins_tags"
 df_filtered['origins_tags'] = df_filtered['origins_tags'].apply(modify_origins_tags)
 
+
 # This line was missing, leading to the error.
 # Assuming you want to process the 'origins_tags' column of the DataFrame,
 # replace 'df_filtered' and 'origins_tags' with your actual DataFrame and column name.
@@ -82,3 +83,6 @@ fig = px.choropleth(
 )
 # Afficher la carte dans Streamlit
 st.plotly_chart(fig)
+
+st.subheader("Résultats du filtrage des produits")
+st.dataframe(df_filtered)
