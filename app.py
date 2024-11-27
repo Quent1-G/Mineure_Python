@@ -12,4 +12,5 @@ df = pd.DataFrame(values, columns=feature_names)
 
 df
 plot = df["alcohol"]
+st.write("le graph avec alcohol:")
 st.line_chart(plot)
