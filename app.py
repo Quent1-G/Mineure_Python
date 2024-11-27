@@ -12,14 +12,20 @@ columns_to_keep = [
     'origins', 'origins_tags', 'origins_fr', 'countries_fr', 'main_category_fr'
 ]
 
-# Zone de saisie pour le code produit (entrée sous forme de texte)
-search_code = st.text_input("Entrez le code du produit que vous recherchez :")
+# Zone de saisie pour les codes produits (entrés sous forme de texte, séparés par des virgules)
+search_codes = st.text_input("Entrez les codes des produits que vous recherchez (séparés par des virgules) :")
 
-# Filtrer les lignes où 'code' correspond au code entré (en tant que chaîne)
-if search_code:
-    # Convertir la colonne 'code' en chaîne de caractères avant de comparer
-    df['code_str'] = df['code'].astype(str)  # Crée une colonne temporaire avec le code en texte
-    df_filtered = df[df['code_str'] == search_code]  # Comparaison avec l'entrée utilisateur
+# Si des codes ont été saisis
+if search_codes:
+    # Convertir la chaîne de codes séparés par des virgules en une liste de codes
+    codes_list = [code.strip() for code in search_codes.split(',')]
+
+    # Convertir la colonne 'code' en chaîne de caractères pour la comparaison
+    df['code_str'] = df['code'].astype(str)
+
+    # Filtrer les lignes où 'code' correspond à l'un des codes saisis
+    df_filtered = df[df['code_str'].isin(codes_list)]  # Comparaison avec la liste des codes saisis
+
 else:
     df_filtered = pd.DataFrame()  # Si aucun code n'est saisi, il n'y a pas de résultat
 
@@ -88,7 +94,7 @@ if not df_filtered.empty:
     st.plotly_chart(fig)
 
 else:
-    st.write("Aucun produit trouvé pour ce code.")
+    st.write("Aucun produit trouvé pour ces codes.")
 
 # Afficher les résultats du filtrage des produits
 if not df_filtered.empty:
