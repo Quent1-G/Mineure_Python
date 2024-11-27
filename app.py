@@ -15,17 +15,9 @@ columns_to_keep = [
 search_term = st.text_input("Entrez les noms de produits que vous recherchez dans votre panier :").lower()
 
 
-# Filtrer les lignes où 'origins' contient une information non vide
-df_filtered = df[df['origins'].notnull()]
-
 # Filtrer les lignes où 'product_name' contient le terme recherché (en ignorant la casse)
 df_filtered = df_filtered[df_filtered['product_name'].str.contains(search_term, case=False, na=False)]
 
-# Exclure les lignes dont le 'product_name' contient "es:Mondo" (en ignorant la casse)
-df_filtered = df_filtered[~df_filtered['product_name'].str.contains('es:Mondo', case=False, na=False)]
-
-# Sélectionner les colonnes spécifiées
-df_filtered = df_filtered[columns_to_keep]
 
 # Fonction de modification de la colonne "origins_tags"
 def modify_origins_tags(value):
@@ -49,10 +41,10 @@ def modify_origins_tags(value):
 # Appliquer la fonction sur la colonne "origins_tags"
 df_filtered['origins_tags'] = df_filtered['origins_tags'].apply(modify_origins_tags)
 
-# This line was missing, leading to the error.
-# Assuming you want to process the 'origins_tags' column of the DataFrame,
 # replace 'df_filtered' and 'origins_tags' with your actual DataFrame and column name.
 origins_tags_string = " ".join(df_filtered['origins_tags'].astype(str).tolist())  
+
+df_filterd
 
 origins_list = []
 current_origin = ""
