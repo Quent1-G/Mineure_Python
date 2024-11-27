@@ -15,6 +15,7 @@ columns_to_keep = [
 search_code = st.text_input("Entrez le code du produit que vous recherchez :")
 
 # Filtrer les lignes où 'code' correspond au code entré (en tant que chaîne)
+# Filtrer les lignes où 'code' correspond au code entré (en tant que chaîne)
 if search_code:
     # Convertir la colonne 'code' en chaîne de caractères avant de comparer
     df['code_str'] = df['code'].astype(str)  # Crée une colonne temporaire avec le code en texte
@@ -22,8 +23,10 @@ if search_code:
 else:
     df_filtered = pd.DataFrame()  # Si aucun code n'est saisi, il n'y a pas de résultat
 
-# Filtrer les lignes où 'origins' contient une information non vide
-df_filtered = df[df['origins'].notnull()]
+# Appliquer le filtre "origins" uniquement sur df_filtered
+
+df_filtered = df_filtered[df_filtered['origins'].notnull()]
+
 
 
 # Exclure les lignes dont le 'product_name' contient "es:Mondo" (en ignorant la casse)
