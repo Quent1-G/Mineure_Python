@@ -1,6 +1,6 @@
 import pandas as pd
 import plotly.express as px
-df = pd.read_csv('"C:\Users\griza\Downloads\fr.openfoodfacts.org.products.csv"', nrows=150000, low_memory=False, sep='\t')
+df = pd.read_csv('C:\Users\griza\Downloads\fr.openfoodfacts.org.products.csv', nrows=150000, low_memory=False, sep='\t')
 df
 # Liste des colonnes à conserver, incluant le nom et le numéro du produit
 columns_to_keep = [
