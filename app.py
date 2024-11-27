@@ -5,7 +5,7 @@ import streamlit as st
 # Titre de l'application
 st.title("Analyse des produits alimentaires")
 
-df = pd.read_csv('nouveau_fichier2.csv',sep=',')
+df = pd.read_csv('off_racourci.csv',sep=',')
 # Liste des colonnes à conserver, incluant le nom et le numéro du produit
 columns_to_keep = [
     'product_name',  # Ajout du nom et du numéro du produit
