@@ -10,7 +10,7 @@ df = pd.read_csv('off_racourci.csv', sep=',')
 
 # Liste des colonnes à conserver
 columns_to_keep = [
-    'product_name', 'product_code',  # Ajout des codes produits
+    'code','product_name', 'product_code',  # Ajout des codes produits
     'origins', 'origins_tags', 'origins_fr', 'countries_fr', 'main_category_fr'
 ]
 
