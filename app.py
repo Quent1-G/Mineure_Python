@@ -80,7 +80,6 @@ fig = px.choropleth(
     color_discrete_sequence=["blue"], 
     title="Carte des pays uniques"
 )
-
-    # Afficher la carte dans Streamlit
-    st.plotly_chart(fig)
+# Afficher la carte dans Streamlit
+st.plotly_chart(fig)
 
