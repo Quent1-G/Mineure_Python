@@ -1,5 +1,5 @@
-!pip install plotly
-!pip install pandas
+pip install plotly
+pip install pandas
 import pandas as pd
 import plotly.express as px
 df = pd.read_csv('/content/drive/MyDrive/fr.openfoodfacts.org.products.csv', nrows=150000, low_memory=False, sep='\t')
