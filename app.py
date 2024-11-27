@@ -8,7 +8,7 @@ st.title("Analyse des produits alimentaires")
 df = pd.read_csv('off_racourci.csv',sep=',')
 # Liste des colonnes à conserver, incluant le nom et le numéro du produit
 columns_to_keep = [
-    'product_name',  # Ajout du nom et du numéro du produit
+    'code', 'product_name',  # Ajout du nom et du numéro du produit
     'origins', 'origins_tags', 'origins_fr', 'countries_fr', 'main_category_fr'
 ]
 # Zone de saisie pour l'utilisateur
