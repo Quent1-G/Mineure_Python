@@ -14,7 +14,7 @@ columns_to_keep = [
 # Zone de saisie pour l'utilisateur
 search_term = st.text_input("Entrez les noms de produits que vous recherchez dans votre panier :").lower()
 
-
+df_filterd = df
 # Filtrer les lignes où 'product_name' contient le terme recherché (en ignorant la casse)
 df_filtered = df_filtered[df_filtered['product_name'].str.contains(search_term, case=False, na=False)]
 
