@@ -5,12 +5,10 @@ import streamlit as st
 # Titre de l'application
 st.title("Analyse des produits alimentaires")
 
-# Charger les données
-df = pd.read_csv('off_racourci.csv', sep=',')
-
-# Liste des colonnes à conserver
+df = pd.read_csv('off_racourci.csv',sep=',')
+# Liste des colonnes à conserver, incluant le nom et le numéro du produit
 columns_to_keep = [
-    'code','product_name', 'product_code',  # Ajout des codes produits
+    'product_name',  # Ajout du nom et du numéro du produit
     'origins', 'origins_tags', 'origins_fr', 'countries_fr', 'main_category_fr'
 ]
 # Zone de saisie pour l'utilisateur
@@ -32,28 +30,44 @@ df_filtered = df_filtered[columns_to_keep]
 # Fonction de modification de la colonne "origins_tags"
 def modify_origins_tags(value):
     if isinstance(value, str):
+        # Vérifie si "en:" est dans la chaîne
         if "en:" in value:
             parts = value.split("en:")
             if len(parts) > 1:
+                # Modifie la lettre suivant "en:"
                 modified_part = parts[1][0].upper() + parts[1][1:] if len(parts[1]) > 0 else ''
                 return parts[0] + " " + modified_part
+        # Vérifie si "fr:" est dans la chaîne
         elif "fr:" in value:
             parts = value.split("fr:")
             if len(parts) > 1:
+                # Modifie la lettre suivant "fr:"
                 modified_part = parts[1][0].upper() + parts[1][1:] if len(parts[1]) > 0 else ''
                 return parts[0] + " " + modified_part
     return value
 
 # Appliquer la fonction sur la colonne "origins_tags"
-if not df_filtered.empty and 'origins_tags' in df_filtered.columns:
-    df_filtered['origins_tags'] = df_filtered['origins_tags'].apply(modify_origins_tags)
+df_filtered['origins_tags'] = df_filtered['origins_tags'].apply(modify_origins_tags)
 
-# Extraire les origines uniques
-if not df_filtered.empty and 'origins_tags' in df_filtered.columns:
-    origins_tags_string = " ".join(df_filtered['origins_tags'].astype(str).tolist())
-    origins_list = list(set(origins_tags_string.split()))
-else:
-    origins_list = []
+# This line was missing, leading to the error.
+# Assuming you want to process the 'origins_tags' column of the DataFrame,
+# replace 'df_filtered' and 'origins_tags' with your actual DataFrame and column name.
+origins_tags_string = " ".join(df_filtered['origins_tags'].astype(str).tolist())  
+
+origins_list = []
+current_origin = ""
+for char in origins_tags_string:
+    if char == '\n' or char == ' ':
+        if current_origin:
+            origins_list.append(current_origin)
+            current_origin = ""
+    else:
+        current_origin += char
+if current_origin:  # Ajoute le dernier élément si la chaîne ne se termine pas par un espace ou une nouvelle ligne
+    origins_list.append(current_origin)
+
+
+origins_list = list(set(origins_list))
 
 # Convert origins_list to a DataFrame with a 'Pays' column
 df_origins = pd.DataFrame({"Pays": origins_list}) 
@@ -68,6 +82,5 @@ fig = px.choropleth(
 )
 # Afficher la carte dans Streamlit
 st.plotly_chart(fig)
-
 st.subheader("Résultats du filtrage des produits")
 st.dataframe(df_filtered)
