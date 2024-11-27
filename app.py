@@ -6,7 +6,7 @@ values, target = load_wine(return_X_y=True)
 target_names = load_wine().target_names
 feature_names = load_wine().feature_names
 
-st.title('Bonjour !')
+st.title('Grosse colab KFC Burger King')
 
 df = pd.DataFrame(values, columns=feature_names)
 
