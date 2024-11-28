@@ -85,7 +85,7 @@ if not df_filtered.empty:
         df_origins,
         locations="Pays", 
         locationmode="country names",
-        color_discrete_sequence=["blue"], 
+        color_discrete_sequence=["green"], 
         title="Origine des produits :"
     )
     # Afficher la carte dans Streamlit
