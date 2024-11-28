@@ -32,7 +32,8 @@ if not df_filtered.empty:
 
     # Exclure les lignes dont le 'product_name' contient "es:Mondo" (en ignorant maj/min)
     if 'product_name' in df_filtered.columns:  # Vérifier si la colonne 'product_name' existe   #ne fonctionnait pas sans cette ligne (???)
-        df_filtered = df_filtered[~df_filtered['product_name'].str.contains('es:Mondo', case=False)]
+        df_filtered = df_filtered[~df_filtered['product_name'].str.contains('es:Mondo', case=False, na=False)]
+
 
     # Sélectionner les colonnes spécifiées
     df_filtered = df_filtered[columns_to_keep]
