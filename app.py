@@ -7,20 +7,17 @@ st.title("Analyse des produits alimentaires")
 
 df = pd.read_csv('off_racourci.csv', sep=',')
 # Liste des colonnes à conserver, incluant le nom et le numéro du produit
-columns_to_keep = [
-    'code', 'product_name',  # Ajout du nom et du numéro du produit
-    'origins', 'origins_tags', 'origins_fr', 'countries_fr', 'main_category_fr'
-]
+columns_to_keep = ['code', 'product_name', 'origins', 'origins_tags', 'origins_fr', 'countries_fr', 'main_category_fr']
 
-# Zone de saisie pour les codes produits (entrés sous forme de texte, séparés par des virgules)
+# Zone de saisie pour les codes produits (entrés sous forme de texte, séparés par des virgules) ==> codes barres
 search_codes = st.text_input("Entrez les codes des produits que vous recherchez (séparés par des virgules) :")
 
 # Si des codes ont été saisis
 if search_codes:
-    # Convertir la chaîne de codes séparés par des virgules en une liste de codes
+    # Convertir la chaîne de codes en une liste (séparateur = virgules)
     codes_list = [code.strip() for code in search_codes.split(',')]
 
-    # Convertir la colonne 'code' en chaîne de caractères pour la comparaison
+    # Nouvelle col avec les STR
     df['code_str'] = df['code'].astype(str)
 
     # Filtrer les lignes où 'code' correspond à l'un des codes saisis
@@ -29,13 +26,13 @@ if search_codes:
 else:
     df_filtered = pd.DataFrame()  # Si aucun code n'est saisi, il n'y a pas de résultat
 
-# Appliquer le filtre "origins" uniquement sur df_filtered
+# Appliquer le filtre "origins" sur df_filtered
 if not df_filtered.empty:
     df_filtered = df_filtered[df_filtered['origins'].notnull()]
 
-    # Exclure les lignes dont le 'product_name' contient "es:Mondo" (en ignorant la casse)
-    if 'product_name' in df_filtered.columns:  # Vérifier si la colonne 'product_name' existe
-        df_filtered = df_filtered[~df_filtered['product_name'].str.contains('es:Mondo', case=False, na=False)]
+    # Exclure les lignes dont le 'product_name' contient "es:Mondo" (en ignorant maj/min)
+    if 'product_name' in df_filtered.columns:  # Vérifier si la colonne 'product_name' existe   #ne fonctionnait pas sans cette ligne (???)
+        df_filtered = df_filtered[~df_filtered['product_name'].str.contains('es:Mondo', case=False)]
 
     # Sélectionner les colonnes spécifiées
     df_filtered = df_filtered[columns_to_keep]
