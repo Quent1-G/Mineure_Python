@@ -82,11 +82,11 @@ if not df_filtered.empty:
 
     # Create the choropleth map
     fig = px.choropleth(
-        df_origins,  # Use the DataFrame instead of the list
-        locations="Pays",  # 'Pays' is now a column in the DataFrame
+        df_origins,
+        locations="Pays", 
         locationmode="country names",
         color_discrete_sequence=["blue"], 
-        title="Carte des pays uniques"
+        title="Origine des produits :"
     )
     # Afficher la carte dans Streamlit
     st.plotly_chart(fig)
@@ -96,5 +96,5 @@ else:
 
 # Afficher les résultats du filtrage des produits
 if not df_filtered.empty:
-    st.subheader("Résultats du filtrage des produits")
+    st.subheader("Votre pannier")
     st.dataframe(df_filtered)
